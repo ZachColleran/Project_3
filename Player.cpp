@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
+#include <cctype>
 #include "Player.h"
 using namespace std;
 
@@ -254,6 +255,12 @@ int Player::repairComputer(int m)
     cout << "0. Back" << endl;
     cout << "Select a part you wish to repair with: ";
     cin >> part;
+    if(!isdigit(part))
+    {
+        cout << "Invalid option" << endl;
+        return m;
+        cout << "Invalid option" << endl;
+    }
     cout << endl;
     // end menu
     if(part > 0 && part < 7)
@@ -293,7 +300,7 @@ int Player::repairComputer(int m)
     }
     else if(part == 0)
     {
-        
+
     }
     else
     {

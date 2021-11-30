@@ -109,7 +109,7 @@ int BestBuy::buyPart(int i, int coins, int arr[], int f)
             cout << endl;
              // end menu
 
-            if(quantity > arr[i] && quantity < 6 && coins > (priceIP[quantity] * priceChange[f])) // if input is valid
+            if(quantity > arr[i] && quantity < 6 && coins >= (priceIP[quantity] * priceChange[f])) // if input is valid
             {
                cout << "You have purchased " << stock[i].getPartName() << ' ' << quantity << endl;
                arr[i] = quantity;
@@ -139,7 +139,7 @@ int BestBuy::buyPart(int i, int coins, int arr[], int f)
         cin >> quantity;
         if(quantity >= 0 && quantity <= stock[i].getPartQuantity())
         {
-            if(coins > (price[i] * priceChange[f] * quantity) && (arr[i] + quantity) <= 3) // check money available and if inventory is full
+            if(coins >= (price[i] * priceChange[f] * quantity) && (arr[i] + quantity) <= 3) // check money available and if inventory is full
             {
                 cout << "You bought " << quantity << ' ' << stock[i].getPartName() << "(s)." << endl;
                 stock[i].setPartQuantity(stock[i].getPartQuantity() - quantity); // revove items from stock

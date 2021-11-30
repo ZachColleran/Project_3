@@ -273,7 +273,7 @@ int main()
         else if(computerMaintenanceLevel == 0)
         {
             gameStatus = false;
-            cout << "Computer Maintenance Level has reached 100!" << endl;
+            cout << "Computer Maintenance Level has reached 0!" << endl;
         }
 
         // End Game Conditions
