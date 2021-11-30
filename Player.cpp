@@ -19,14 +19,14 @@ void Player::initializeNames()
     parts[9].setPartName("Extra Computer");
 }
 
-string toLower1(string word)
+string toUpper(string word)
 {
     int length = word.length();
     for(int i = 0; i < length; i++)
     {
-        if(isupper(word[i]))
+        if(islower(word[i]))
         {
-            word[i] += 32;
+            word[i] -= 32;
         }
     }
     // cout << word << endl;
@@ -246,7 +246,8 @@ int Player::subtractRandomPart()
 }
 int Player::repairComputer(int m)
 {
-    int part, quantity;
+    int part;
+    int quantity;
     // menu
     for(int i = 0; i < 6; i++)
     {
@@ -255,12 +256,6 @@ int Player::repairComputer(int m)
     cout << "0. Back" << endl;
     cout << "Select a part you wish to repair with: ";
     cin >> part;
-    if(!isdigit(part))
-    {
-        cout << "Invalid option" << endl;
-        return m;
-        cout << "Invalid option" << endl;
-    }
     cout << endl;
     // end menu
     if(part > 0 && part < 7)
@@ -331,47 +326,49 @@ int Player::virus(int v)
 bool Player::playPuzzle(int l)
 {
     ifstream finP, finS;
-    string n;
+    string q, a;
     int question = 0;
 
     finP.open("puzzles.txt");
-    while(getline(finP, n)) // find question from txt
+    while(getline(finP, q)) // find question from txt
     {
         if(question == l) // if question matches puzzle number
         {
-            if(n[0] != '-')
+            if(q[0] != '-')
             {
-                cout << n << endl;
+                cout << q << endl;
             }
         }
-        if(n[0] == '-') // if --- line occurs increase question number by 1S
+        if(q[0] == '-') // if --- line occurs increase question number by 1S
         {
             question++;
         }
     }
     int answer = 0;
+    string userAnswer;
     finS.open("answers.txt"); 
-    while(getline(finS, n)) // find answer from txt
+    while(getline(finS, a)) // find answer from txt
     {
         if(answer == l) // if answer matches puzzle number
         {
-            string userAnswer;
             cout << "Answer: ";
             cin >> userAnswer;
             cout << endl;
-            cout << toLower1(userAnswer) << ' ' << toLower1(n) << endl; // check input an answer
-            if(toLower1(userAnswer) == toLower1(n)) // if answer matches
+            if(isalpha(a[0])) // Upper case user input
             {
-                cout << "True" << endl;
+                userAnswer = toUpper(userAnswer);
+            }
+            cout << userAnswer << ' ' << a << endl; // check input an answer
+            if(userAnswer == a) // if answers match
+            {
                 return true;
             }
             else // if answer is incorrect
             {
-                cout << "False" << endl;
                 return false;
             }
         }
-        if(n[0] == '-') // if --- line occurs find next answer from txt
+        if(a[0] == '-') // if --- line occurs find next answer from txt
         {
             answer++;
         }
@@ -382,6 +379,7 @@ void Player::stackOverflow()
 {
     int option;
     srand(time(0));
+    // menu
     cout << "Your frustration right now is: " << frustration << endl;
     cout << "1. Solve a puzzle" << endl;
     cout << "2. Play a game of rock-paper-scissors" << endl;
@@ -389,6 +387,7 @@ void Player::stackOverflow()
     cout << "Select an option: ";
     cin >> option;
     cout << endl;
+    // end menu
     switch(option)
     {
         case 1:
@@ -422,7 +421,7 @@ void Player::stackOverflow()
             cout << endl;
             choiceC = ((rand() % 3) + 1); // Computer choice
             cout << choiceU << ' ' << choiceC << endl;
-            if(choiceU > 0 && choiceU < 3) // Play game if User choice is valid
+            if(choiceU > 0 && choiceU <= 3) // Play game if User choice is valid
             {
                 if(choiceU == choiceC)
                 {
@@ -512,8 +511,8 @@ bool Player::battle(int f, int b)
         {
             case 1: // Fight Hacker
             {
-                srand(time(NULL)); 
-                double result = (((rand() % 6) + 1) * parts[6].getPartQuantity()) - (((rand()/13 % 6) * f) * (double(1) / double(parts[7].getPartQuantity()))); // battle equation
+                srand(time(0)); 
+                double result = (((rand() % 6) + 1) * parts[6].getPartQuantity()) - (((rand() % 6) * f) * (double(1) / double(parts[7].getPartQuantity()))); // battle equation
                 cout << "Result of the battle: " << result << endl;
                 if(result > 0)
                 {

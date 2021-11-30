@@ -228,7 +228,14 @@ int main()
             } break;
             case 4: 
             {
-                Player1.stackOverflow();
+                if (Player1.getFrustration() > 0)
+                {
+                    Player1.stackOverflow();
+                }
+                else
+                {
+                    cout << "You are not frustrated." << endl;
+                }
                 cout << endl;
             } break;
             case 5:

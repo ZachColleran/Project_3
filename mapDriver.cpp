@@ -25,7 +25,6 @@ int main() {
 
         if (map.isBestBuyLocation()) {
             cout << "You're in a Best Buy!" << endl;
-
         }
 
         if (map.isHackerLocation()) {
