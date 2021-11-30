@@ -22,7 +22,7 @@ class BestBuy
         void displayStockInfo();
         void startBestBuy();
         int buy(int coins, int arr[], int f);
-        int buyPart(int i, int coins, int arr[]);
+        int buyPart(int i, int coins, int arr[], int f);
 
     private:
         // data members

@@ -9,7 +9,15 @@ int main()
     BestBuy BestBuy1;
     Player Player1;
 
-    Player1.setFrustration(90);
+    // Create Game Stats
+    int serverRoomLevel = 1;
+    int computerMaintenanceLevel = 100;
+    int computerDamage = 0;
+    int computerViruses = 0;
+    int carmensProgress = 0;
+    int hackersDefeated = 0;
+    int loseStatus;
+
 
     cout << "Welcome to Where in the Code is Carmen Sandiego!" << endl; // game starts
     Player1.setStartName();
@@ -20,7 +28,7 @@ int main()
     Player1.findInventoryStats(inventory);
     int coins_left;
     // input player coin amount, return new coin amount, change player coin amount
-    coins_left = (BestBuy1.buy(Player1.getMoney(), inventory));
+    coins_left = (BestBuy1.buy(Player1.getMoney(), inventory, serverRoomLevel));
     Player1.setMoney(coins_left);
 
     // Stock player inventory based on item bought
@@ -31,15 +39,6 @@ int main()
     Map1.spawnBestBuy(0, 0);
     Map1.spawnHacker(2,1);
     Map1.spawnNPC(1,2);
-
-    // Create Game Stats
-    int serverRoomLevel = 1;
-    int computerMaintenanceLevel = 100;
-    int computerDamage = 0;
-    int computerViruses = 0;
-    int carmensProgress = 0;
-    int hackersDefeated = 0;
-    int loseStatus;
 
     // START GAME
     bool gameStatus = true;
@@ -120,7 +119,7 @@ int main()
                         Player1.findInventoryStats(inventory);
                         int coins_left;
                         // input player coin amount, return new coin amount, change player coin amount
-                        coins_left = (BestBuy1.buy(Player1.getMoney(), inventory));
+                        coins_left = (BestBuy1.buy(Player1.getMoney(), inventory, serverRoomLevel));
                         Player1.setMoney(coins_left);
 
                         // Stock player inventory based on item bought

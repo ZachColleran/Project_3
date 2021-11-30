@@ -40,7 +40,6 @@ int main()
 
     BestBuy BestBuy1 = BestBuy();
     BestBuy BestBuy2 = BestBuy();
-    cout << "Discount: " << BestBuy1.getDiscount() << endl;
     BestBuy1.displayStockInfo();
 
 }

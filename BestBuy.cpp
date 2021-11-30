@@ -87,10 +87,11 @@ void BestBuy::startBestBuy()
     cout << endl;
 }   
 
-int BestBuy::buyPart(int i, int coins, int arr[])
+int BestBuy::buyPart(int i, int coins, int arr[], int f)
 {
     int quantity = 0;
     int priceIP[] = {0, 0, 10, 25, 40, 50}; // prices for internet provider
+    double priceChange[] = {0, 1, 1.1, 1.2, 1.25, 1.3}; // price change per floor
 
     if(i == 6) // buying Internet Provider Level
     {   
@@ -99,7 +100,7 @@ int BestBuy::buyPart(int i, int coins, int arr[])
             // menu
             for(int j = arr[i]; j < 5; j++)
             {
-                cout << "Level " << (j + 1) << ": " << priceIP[j + 1] << 'c' << endl;
+                cout << "Level " << (j + 1) << ": " << priceIP[j + 1] * priceChange[f] << 'c' << endl;
             }
             cout << endl;
             cout << "Your current " << stock[i].getPartName() << " is " << arr[i] << endl;
@@ -108,11 +109,11 @@ int BestBuy::buyPart(int i, int coins, int arr[])
             cout << endl;
              // end menu
 
-            if(quantity > arr[i] && quantity < 6 && coins > priceIP[quantity]) // if input is valid
+            if(quantity > arr[i] && quantity < 6 && coins > (priceIP[quantity] * priceChange[f])) // if input is valid
             {
                cout << "You have purchased " << stock[i].getPartName() << ' ' << quantity << endl;
                arr[i] = quantity;
-               return (coins - priceIP[quantity]); // return total coins after loss
+               return (coins - (priceIP[quantity] * priceChange[f])); // return total coins after loss
             }
             else if(quantity < arr[i] || quantity > 5) // if user input is out of range
             {
@@ -138,7 +139,7 @@ int BestBuy::buyPart(int i, int coins, int arr[])
         cin >> quantity;
         if(quantity >= 0 && quantity <= stock[i].getPartQuantity())
         {
-            if(coins > (price[i] * quantity) && (arr[i] + quantity) <= 3) // check money available and if inventory is full
+            if(coins > (price[i] * priceChange[f] * quantity) && (arr[i] + quantity) <= 3) // check money available and if inventory is full
             {
                 cout << "You bought " << quantity << ' ' << stock[i].getPartName() << "(s)." << endl;
                 stock[i].setPartQuantity(stock[i].getPartQuantity() - quantity); // revove items from stock
@@ -172,7 +173,7 @@ int BestBuy::buyPart(int i, int coins, int arr[])
 int BestBuy::buy(int coins, int arr[], int f)
 {
     int optionStart;
-    int priceChange[] = {1, 1.1, 1.2, 1.25, 1.3};
+    double priceChange[] = {0, 1, 1.1, 1.2, 1.25, 1.3}; // price change per floor
     do {
 
         cout << endl;
@@ -199,25 +200,26 @@ int BestBuy::buy(int coins, int arr[], int f)
                 cout << "NAME(AVAILABLITY): PRICE" << endl;
                 for(int i = 0; i < 6; i++)
                 {
-                    cout << (i + 1) << ". " << stock[i].getPartName() << '(' << stock[i].getPartQuantity() << "): " << price[i] << 'c' << endl;
+                    cout << (i + 1) << ". " << stock[i].getPartName() << '(' << stock[i].getPartQuantity() << "): " << price[i] * priceChange[f] << 'c' << endl;
                 }
-                cout << "10. " << stock[9].getPartName() << '(' << stock[9].getPartQuantity() << "): " << price[9] << 'c' << endl;
+                cout << "10. " << stock[9].getPartName() << '(' << stock[9].getPartQuantity() << "): " << price[9] * priceChange[f] << 'c' << endl;
                 cout << "0. Back" << endl;
 
                 // user input
                 cout << "Select an item to buy: ";
                 cin >> option1;
+                cout << endl;
 
                 // buy parts
                 switch(option1)
                 {
-                    case 1: coins = buyPart(0, coins, arr); break;
-                    case 2: coins = buyPart(1, coins, arr); break;
-                    case 3: coins = buyPart(2, coins, arr); break;
-                    case 4: coins = buyPart(3, coins, arr); break;
-                    case 5: coins = buyPart(4, coins, arr); break;
-                    case 6: coins = buyPart(5, coins, arr); break;
-                    case 10: coins = buyPart(9, coins, arr); break;
+                    case 1: coins = buyPart(0, coins, arr, f); break;
+                    case 2: coins = buyPart(1, coins, arr, f); break;
+                    case 3: coins = buyPart(2, coins, arr, f); break;
+                    case 4: coins = buyPart(3, coins, arr, f); break;
+                    case 5: coins = buyPart(4, coins, arr, f); break;
+                    case 6: coins = buyPart(5, coins, arr, f); break;
+                    case 10: coins = buyPart(9, coins, arr, f); break;
                     case 0: break;
 
                     default: cout << "Invalid option. Try again." << endl;
@@ -236,7 +238,7 @@ int BestBuy::buy(int coins, int arr[], int f)
                 // buy part
                 switch(option2)
                 {
-                    case 1: coins = buyPart(8, coins, arr); break;
+                    case 1: coins = buyPart(8, coins, arr, f); break;
                     case 0: break;
                     default: cout << "Invalid input." << endl; break;
                 } 
@@ -256,7 +258,7 @@ int BestBuy::buy(int coins, int arr[], int f)
                 // buy part
                 switch(option3)
                 {
-                    case 1: coins = buyPart(7, coins, arr); break;
+                    case 1: coins = buyPart(7, coins, arr, f); break;
                     case 0: break;
                     default: cout << "Invalid input." << endl; break;
                 }
@@ -276,7 +278,7 @@ int BestBuy::buy(int coins, int arr[], int f)
 
                 switch(option4)
                 {
-                    case 1: coins = buyPart(6, coins, arr); break;
+                    case 1: coins = buyPart(6, coins, arr, f); break;
                     case 0: break;
                     default: cout << "Invalid input." << endl; break;
                 }

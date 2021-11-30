@@ -1,8 +1,7 @@
 #include <iostream>
 #include <ctime>
-#include <vector>
+#include <fstream>
 #include "Player.h"
-#include "Hacker.h"
 using namespace std;
 
 void Player::initializeNames()
@@ -21,7 +20,8 @@ void Player::initializeNames()
 
 string toLower1(string word)
 {
-    for(int i = 0; i < word.length(); i++)
+    int length = word.length();
+    for(int i = 0; i < length; i++)
     {
         if(isupper(word[i]))
         {
@@ -246,13 +246,16 @@ int Player::subtractRandomPart()
 int Player::repairComputer(int m)
 {
     int part, quantity;
+    // menu
     for(int i = 0; i < 6; i++)
     {
         cout << i + 1 << ". " << parts[i].getPartName() << ": " << parts[i].getPartQuantity() << endl;
     }
+    cout << "0. Back" << endl;
     cout << "Select a part you wish to repair with: ";
     cin >> part;
     cout << endl;
+    // end menu
     if(part > 0 && part < 7)
     {
         if(parts[part - 1].getPartQuantity() > 0)
@@ -287,6 +290,10 @@ int Player::repairComputer(int m)
             cout << "No available parts." << endl;
             return m;
         }
+    }
+    else if(part == 0)
+    {
+        
     }
     else
     {
@@ -345,13 +352,15 @@ bool Player::playPuzzle(int l)
             cout << "Answer: ";
             cin >> userAnswer;
             cout << endl;
-            // cout << toLower(userAnswer) << ' ' << toLower(n) << endl; // check input an answer
+            cout << toLower1(userAnswer) << ' ' << toLower1(n) << endl; // check input an answer
             if(toLower1(userAnswer) == toLower1(n)) // if answer matches
             {
+                cout << "True" << endl;
                 return true;
             }
             else // if answer is incorrect
             {
+                cout << "False" << endl;
                 return false;
             }
         }
@@ -365,7 +374,7 @@ bool Player::playPuzzle(int l)
 void Player::stackOverflow()
 {
     int option;
-
+    srand(time(0));
     cout << "Your frustration right now is: " << frustration << endl;
     cout << "1. Solve a puzzle" << endl;
     cout << "2. Play a game of rock-paper-scissors" << endl;
@@ -377,18 +386,20 @@ void Player::stackOverflow()
     {
         case 1:
         {
-            if(playPuzzle(rand() % 3))
+            if(playPuzzle(rand() % 4))
             {
                 cout << "You are correct!" << endl;
                 if(frustration - 5 > 0)
                 {
                     frustration -= 5;
+                    cout << "Your frustration level is now: " << frustration << endl;
                 }
             }
             else
             {
                 cout << "You are incorrect!" << endl;
                 frustration += 5;
+                cout << "Your frustration level is now: " << frustration << endl;
             }
         } break;
         case 2:
@@ -403,6 +414,7 @@ void Player::stackOverflow()
             cin >> choiceU; // user choice
             cout << endl;
             choiceC = ((rand() % 3) + 1); // Computer choice
+            cout << choiceU << ' ' << choiceC << endl;
             if(choiceU > 0 && choiceU < 3) // Play game if User choice is valid
             {
                 if(choiceU == choiceC)
@@ -415,11 +427,13 @@ void Player::stackOverflow()
                     {
                         cout << "You Lose!" << endl;
                         frustration += 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                     else if(choiceC == 3)
                     {
                         cout << "You Win!" << endl;
                         frustration -= 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                 }
                 else if(choiceU == 2)
@@ -428,11 +442,13 @@ void Player::stackOverflow()
                     {
                         cout << "You Win!" << endl;
                         frustration -= 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                     else if(choiceC == 3)
                     {
                         cout << "You Lose!" << endl;
                         frustration += 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                 }
                 else if(choiceU == 3)
@@ -441,11 +457,13 @@ void Player::stackOverflow()
                     {
                         cout << "You Lose!" << endl;
                         frustration += 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                     else if(choiceC == 2)
                     {
                         cout << "You Win!" << endl;
                         frustration -= 5;
+                        cout << "Your frustration level is now: " << frustration << endl;
                     }
                 }
             }
